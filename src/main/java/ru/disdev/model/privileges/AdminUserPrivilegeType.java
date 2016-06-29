@@ -5,7 +5,7 @@ package ru.disdev.model.privileges;
  */
 public final class AdminUserPrivilegeType implements PrivilegeType {
 
-    protected AdminUserPrivilegeType() {
+    AdminUserPrivilegeType() {
 
     }
 

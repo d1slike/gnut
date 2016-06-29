@@ -3,7 +3,7 @@ package ru.disdev.model.users;
 import ru.disdev.model.privileges.PrivilegeType;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by Dislike on 28.06.2016.
@@ -15,12 +15,15 @@ public class RegisteredUser implements User {
     @Id
     @GeneratedValue
     private int id;
-    @Column(unique = true)
+    @Column(nullable = false, length = 30)
     private String login;
+    @Column(nullable = false, length = 30)
     private String password;
     private String email;
     private int messageCount;
-    private LocalDateTime registeredTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registeredTime;
     private int rating;
     private PrivilegeType privilege;
 
@@ -59,12 +62,49 @@ public class RegisteredUser implements User {
     }
 
     @Override
-    public LocalDateTime getRegisteredDate() {
+    public Date getRegisteredDate() {
         return registeredTime;
     }
 
     @Override
     public int getRating() {
         return rating;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setMessageCount(int messageCount) {
+        this.messageCount = messageCount;
+    }
+
+    public void setRegisteredTime(Date registeredTime) {
+        this.registeredTime = registeredTime;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setPrivilege(PrivilegeType privilege) {
+        this.privilege = privilege;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("login - %s, email - %s, raring - %d, priv - %s",
+                login,
+                email,
+                rating,
+                privilege.equals(PrivilegeType.ADMIN_PRIVILEGE) ? "admin" : "user");
     }
 }
