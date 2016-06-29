@@ -1,6 +1,7 @@
 package ru.disdev.model.users;
 
 import ru.disdev.model.privileges.PrivilegeType;
+import ru.disdev.model.privileges.UserRole;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class RegisteredUser implements User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date registeredTime;
     private int rating;
-    private PrivilegeType privilege;
+    private UserRole role;
 
     public RegisteredUser() {
 
@@ -48,7 +49,16 @@ public class RegisteredUser implements User {
 
     @Override
     public PrivilegeType getPrivilege() {
-        return privilege;
+        switch (role) {
+            case ANON:
+                return PrivilegeType.ANON_USER_PRIVILEGE;
+            case AUTHORIZED:
+                return PrivilegeType.AUTHORIZED_USER_PRIVILEGE;
+            case ADMIN:
+                return PrivilegeType.ADMIN_PRIVILEGE;
+            default:
+                return PrivilegeType.ANON_USER_PRIVILEGE;
+        }
     }
 
     @Override
@@ -95,8 +105,8 @@ public class RegisteredUser implements User {
         this.rating = rating;
     }
 
-    public void setPrivilege(PrivilegeType privilege) {
-        this.privilege = privilege;
+    public void setPrivilege(UserRole userRole) {
+        this.role = userRole;
     }
 
     @Override
@@ -105,6 +115,6 @@ public class RegisteredUser implements User {
                 login,
                 email,
                 rating,
-                privilege.equals(PrivilegeType.ADMIN_PRIVILEGE) ? "admin" : "user");
+                role);
     }
 }

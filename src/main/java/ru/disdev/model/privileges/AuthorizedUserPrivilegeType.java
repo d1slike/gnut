@@ -3,7 +3,7 @@ package ru.disdev.model.privileges;
 /**
  * Created by Dislike on 28.06.2016.
  */
-public final class AuthorizedUserPrivilegeType implements PrivilegeType {
+final class AuthorizedUserPrivilegeType implements PrivilegeType {
     AuthorizedUserPrivilegeType() {
 
     }
