@@ -12,9 +12,9 @@ import java.util.Date;
  * Created by DisDev on 30.06.2016.
  */
 @Controller
-@RequestMapping("/")
 public class MainController {
-    @RequestMapping(method = RequestMethod.GET)
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     private String loadPage(Model model) {
         model.addAttribute("greeting", "Hello!");
         Date date = new Date();
@@ -22,5 +22,10 @@ public class MainController {
         String formattedDate = dateFormat.format(date);
         model.addAttribute("currentTime", formattedDate);
         return "hello";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    private String mainPage() {
+        return "index";
     }
 }

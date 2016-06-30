@@ -1,6 +1,7 @@
 package ru.disdev.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,8 +30,36 @@ public class WebSecureConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/index", "/")
+                .authenticated()//TODO
+                .antMatchers("/registration")
+                .anonymous()
+                .anyRequest()
+                .permitAll()
+        .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/j_spring_security_check")
+                .failureUrl("/login/error")
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
+                .defaultSuccessUrl("/index")
+                .permitAll()
+        .and()
+                .csrf()
+                .disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+        .and()
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true);
+
         // включаем защиту от CSRF атак
-        http.csrf()
+        /*http.csrf()
                 .disable()
                 // указываем правила запросов
                 // по которым будет определятся доступ к ресурсам и остальным данным
@@ -60,16 +89,8 @@ public class WebSecureConfiguration extends WebSecurityConfigurerAdapter {
                 // указываем URL при удачном логауте
                 .logoutSuccessUrl("/login?logout")
                 // делаем не валидной текущую сессию
-                .invalidateHttpSession(true);
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER")
-                .and()
-                .withUser("admin").password("admin").roles("ADMIN");
+                .invalidateHttpSession(true);*/
 
     }
+
 }

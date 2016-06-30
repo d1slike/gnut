@@ -32,6 +32,14 @@ public class RegisteredUser implements User {
 
     }
 
+    public RegisteredUser(String login, String password, String email) {
+        setLogin(login);
+        setPassword(password);
+        setEmail(email);
+        setPrivilege(UserRole.AUTHORIZED);
+        setRegisteredTime(new Date());
+    }
+
     @Override
     public int getId() {
         return id;
