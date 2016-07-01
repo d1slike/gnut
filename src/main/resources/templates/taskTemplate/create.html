@@ -1,0 +1,58 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="htmlhead">
+    <meta charset="utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="maxWidth=device-maxWidth, initial-scale=1.0"></meta>
+    <meta name="description" content=""></meta>
+    <meta name="author" content=""></meta>
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}"></link>
+
+    <title>Авторизация</title>
+
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <link th:href="@{/css/starter.css}" rel="stylesheet"></link>
+</head>
+
+<body>
+<div class="container" style="maxWidth: 300px;" align="center">
+    <form th:action="@{/registration}" th:object="${registrationInfo}" method="post">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" style="maxWidth:600px">
+                <tbody>
+                <tr>
+                    <td style="text-align: center;">Логин</td>
+                    <td style="text-align: center;"><input maxlength="20" type="text" th:field="*{login}"/></td>
+                    <td style="text-align: center;">
+                        <p th:if="${#fields.hasErrors('login')}"
+                           class="label label-danger" th:errors="*{login}">
+                            Incorrect login</p>
+                        <p th:if="${loginAlreadyExist}" class="label label-danger">Пользователь
+                            уже существует
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Пароль</td>
+                    <td style="text-align: center;"><input maxlength="20" type="password" th:field="*{password}"/></td>
+                    <td style="text-align: center;"><p th:if="${#fields.hasErrors('password')}"
+                                                       class="label label-danger" th:errors="*{password}">
+                        Incorrect password</p></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Почта</td>
+                    <td style="text-align: center;"><input type="text" th:field="*{email}"/></td>
+                    <td style="text-align: center;"><p th:if="${#fields.hasErrors('email')}"
+                                                       class="label label-danger" th:errors="*{email}">
+                        Incorrect email</p>
+                        <p th:if="${emailAlreadyExist}" class="label label-danger">Пользователь с таким адресом уже
+                            зарегистрирован
+                        </p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input class="btn btn-lg btn-primary btn-block" style="maxWidth: 200px; maxHeight: 50px" type="submit"
+                   value="Зарегистрироваться"/>
+        </form>
+</div>
+</body>
+</html>
