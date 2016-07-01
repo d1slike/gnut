@@ -1,5 +1,7 @@
 package ru.disdev.requests;
 
+import ru.disdev.util.Constants;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -8,7 +10,7 @@ import javax.validation.constraints.Size;
  */
 public class RegistrationInfo {
     @Size(min = 3, max = 20, message = "Минимальное количество символов - 3, максимальное - 20")
-    @Pattern(regexp = "^[a-zA-Z0-9]+$",
+    @Pattern(regexp = Constants.NAME_PATTERN,
             message = "Логин должен состаять из цифр и букв из латинского алфавита")
     private String login;
     @Size(min = 3, max = 20, message = "Минимальное количество символов - 3, максимальное - 20")

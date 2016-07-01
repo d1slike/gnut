@@ -4,9 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import ru.disdev.requests.TaskTemplateFieldInfo;
 import ru.disdev.requests.TaskTemplateInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +18,26 @@ import java.util.List;
 @Controller
 @RequestMapping("/template")
 public class TaskTemplateController {
-    @RequestMapping(method = RequestMethod.POST, params = "addField")
-    private Model addField(List<TaskTemplateFieldInfo> list, Model model) {
-        list.add(new TaskTemplateFieldInfo());
-        return model;
+    @RequestMapping(params = "addField")
+    private String addField(TaskTemplateInfo taskTemplateInfo, Model model) {
+        TaskTemplateFieldInfo info = new TaskTemplateFieldInfo();
+        taskTemplateInfo.getFields().add(info);
+        return "taskTemplate/create";
     }
 
     @RequestMapping(method = RequestMethod.GET)
     private String templateEditPage(Model model) {
-        List<TaskTemplateFieldInfo> infoList = new ArrayList<>();
-        infoList.add(new TaskTemplateFieldInfo());
-        model.addAttribute("list", infoList);
-        model.addAttribute("template", new TaskTemplateInfo(infoList));
-        return "taskTemplates/create";
+        TaskTemplateInfo templateInfo = new TaskTemplateInfo();
+        templateInfo.getFields().add(new TaskTemplateFieldInfo());
+        model.addAttribute(templateInfo);
+        return "taskTemplate/create";
+    }
+
+    @RequestMapping(params = "removeField")
+    private String removeField(TaskTemplateInfo taskTemplateInfo, HttpServletRequest request, Model model) {
+        int number = Integer.parseInt(request.getParameter("removeField"));
+        taskTemplateInfo.getFields().remove(number);
+        return "taskTemplate/create";
     }
 
 }

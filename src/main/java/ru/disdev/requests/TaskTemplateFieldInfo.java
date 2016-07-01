@@ -9,6 +9,10 @@ public class TaskTemplateFieldInfo {
     private String condition;
     private boolean required;
 
+    public TaskTemplateFieldInfo() {
+
+    }
+
     public String getType() {
         return type;
     }

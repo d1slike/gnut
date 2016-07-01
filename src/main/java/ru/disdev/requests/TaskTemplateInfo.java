@@ -1,16 +1,24 @@
 package ru.disdev.requests;
 
+import ru.disdev.util.Constants;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Dislike on 01.07.2016.
  */
 public class TaskTemplateInfo {
-    private String name;
-    private List<TaskTemplateFieldInfo> fields;
 
-    public TaskTemplateInfo(List<TaskTemplateFieldInfo> list) {
-        fields = list;
+    @Pattern(regexp = Constants.NAME_PATTERN, "Неверный формат имени")
+    private String name;
+    @Valid
+    private List<TaskTemplateFieldInfo> fields = new ArrayList<>();
+
+    public TaskTemplateInfo() {
+
     }
 
     public String getName() {

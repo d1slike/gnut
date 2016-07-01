@@ -15,44 +15,33 @@
 
 <body>
 <div class="container" style="maxWidth: 300px;" align="center">
-    <form th:action="@{/registration}" th:object="${registrationInfo}" method="post">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" style="maxWidth:600px">
-                <tbody>
-                <tr>
-                    <td style="text-align: center;">Логин</td>
-                    <td style="text-align: center;"><input maxlength="20" type="text" th:field="*{login}"/></td>
-                    <td style="text-align: center;">
-                        <p th:if="${#fields.hasErrors('login')}"
-                           class="label label-danger" th:errors="*{login}">
-                            Incorrect login</p>
-                        <p th:if="${loginAlreadyExist}" class="label label-danger">Пользователь
-                            уже существует
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">Пароль</td>
-                    <td style="text-align: center;"><input maxlength="20" type="password" th:field="*{password}"/></td>
-                    <td style="text-align: center;"><p th:if="${#fields.hasErrors('password')}"
-                                                       class="label label-danger" th:errors="*{password}">
-                        Incorrect password</p></td>
-                </tr>
-                <tr>
-                    <td style="text-align: center;">Почта</td>
-                    <td style="text-align: center;"><input type="text" th:field="*{email}"/></td>
-                    <td style="text-align: center;"><p th:if="${#fields.hasErrors('email')}"
-                                                       class="label label-danger" th:errors="*{email}">
-                        Incorrect email</p>
-                        <p th:if="${emailAlreadyExist}" class="label label-danger">Пользователь с таким адресом уже
-                            зарегистрирован
-                        </p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <input class="btn btn-lg btn-primary btn-block" style="maxWidth: 200px; maxHeight: 50px" type="submit"
-                   value="Зарегистрироваться"/>
-        </form>
+    <!--/*@thymesVar id="template" type="ru.disdev.requests.TaskTemplateInfo"*/-->
+    <!--/*@thymesVar id="taskTemplateInfo" type="ru.disdev.requests.TaskTemplateInfo"*/-->
+    <form th:action="@{/template}" th:object="${taskTemplateInfo}" method="post">
+        <input type="text" th:field="*{name}"/>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" style="maxWidth:600px;max-height: 1000px">
+            <tbody>
+            <tr>
+                <td style="align-content: center">#</td>
+                <td style="align-content: center">Тип поля</td>
+                <td style="align-content: center">Название поля</td>
+                <td style="align-content: center">Ограничения</td>
+                <td style="align-content: center">Обязательно</td>
+                <td style="align-content: center">Удалить</td>
+            </tr>
+            <tr th:each="field, stat : *{fields}">
+                <td style="align-content: center" th:text="${stat.index}">jj</td>
+                <td style="align-content: center"><input type="text" th:field="*{fields[__${stat.index}__].type}"/></td>
+                <td style="align-content: center"><input type="text" th:field="*{fields[__${stat.index}__].name}"/></td>
+                <td style="align-content: center"><input type="text" th:field="*{fields[__${stat.index}__].condition}"/></td>
+                <td style="align-content: center"><input type="checkbox" th:field="*{fields[__${stat.index}__].required}"/></td>
+                <td style="align-content: center"><button type="submit" th:value="${stat.index}" name="removeField">Удалить</button></td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="submit" value="Добавить поле" name="addField"/>
+        <input type="submit" value="Сохранить шаблон"/>
+    </form>
 </div>
 </body>
 </html>
