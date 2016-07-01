@@ -1,7 +1,6 @@
 package ru.disdev.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import ru.disdev.services.UserDetailsServiceImpl;
 
 /**
  * Created by Dislike on 29.06.2016.
@@ -42,7 +40,7 @@ public class WebSecureConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/j_spring_security_check")
-                .failureUrl("/login/error")
+                .failureUrl("/login?error")
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
                 .defaultSuccessUrl("/index")

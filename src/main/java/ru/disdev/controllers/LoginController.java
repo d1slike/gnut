@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by Dislike on 30.06.2016.
  */
 @Controller
+@RequestMapping("/login")
 public class LoginController {
 
-    @RequestMapping("/login")
+    @RequestMapping()
     private String loginPage() {
         return "login";
     }
 
-    @RequestMapping("/login/error")
+    @RequestMapping(params = "error")
     private String ifError(Model model) {
         model.addAttribute("loginError", true);
         return "login";

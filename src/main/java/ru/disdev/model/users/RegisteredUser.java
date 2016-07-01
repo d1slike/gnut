@@ -16,9 +16,9 @@ public class RegisteredUser implements User {
     @Id
     @GeneratedValue
     private int id;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 20)
     private String login;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 20)
     private String password;
     private String email;
     private int messageCount;

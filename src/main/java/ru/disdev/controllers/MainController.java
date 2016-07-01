@@ -3,7 +3,6 @@ package ru.disdev.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -14,7 +13,7 @@ import java.util.Date;
 @Controller
 public class MainController {
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"})
     private String loadPage(Model model) {
         model.addAttribute("greeting", "Hello!");
         Date date = new Date();
@@ -24,8 +23,4 @@ public class MainController {
         return "hello";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    private String mainPage() {
-        return "index";
-    }
 }

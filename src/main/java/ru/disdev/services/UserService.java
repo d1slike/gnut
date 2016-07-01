@@ -16,4 +16,8 @@ public interface UserService {
     void deleteById(int id);
     void save(RegisteredUser user);
     void update(RegisteredUser user);
+
+    boolean checkForExistsByLogin(String name);
+
+    boolean checkForExistByEmail(String email);
 }
