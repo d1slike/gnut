@@ -4,19 +4,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.disdev.model.templates.TaskTemplate;
-import ru.disdev.model.templates.TaskTemplateField;
-import ru.disdev.model.templates.TaskTemplateFieldType;
-import ru.disdev.model.templates.validation.TextFieldValidator;
 import ru.disdev.model.users.RegisteredUser;
 import ru.disdev.model.users.User;
-import ru.disdev.repository.TaskTemplateRepository;
 import ru.disdev.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,19 +24,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
-    @Autowired
-    private TaskTemplateRepository taskTemplateRepository;
-
     private Map<Integer, RegisteredUser> users = new ConcurrentHashMap<>();
 
     @PostConstruct
     private void init() {
-        List<TaskTemplateField> list = new ArrayList<>();
-        list.add(new TaskTemplateField(TaskTemplateFieldType.TEXT, "fdfdf", new TextFieldValidator(0, 44)));
-        list.add(new TaskTemplateField(TaskTemplateFieldType.TEXT, "fgrgdfdf", new TextFieldValidator(4, 44)));
-        taskTemplateRepository.save(new TaskTemplate("klfkk", list));
-
-
         repository.findAll().forEach(registeredUser -> users.put(registeredUser.getId(), registeredUser));
         LOGGER.info("Was loaded " + users.size() + " users.");
     }

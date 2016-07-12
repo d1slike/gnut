@@ -1,6 +1,10 @@
 package ru.disdev.model.templates;
 
+import ru.disdev.util.Constants;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,14 +15,14 @@ public class TaskTemplate {
     @Id
     @GeneratedValue
     private int id;
+    @Pattern(regexp = Constants.NAME_PATTERN_STRING, message = "Неверный формат имени")
     private String name;
     @ElementCollection
     @CollectionTable(name = "template_fields", joinColumns = @JoinColumn(name = "task_template_id"))
     private List<TaskTemplateField> fields;
 
-    public TaskTemplate(String name, List<TaskTemplateField> fields) {
-        this.name = name;
-        this.fields = fields;
+    public TaskTemplate() {
+        fields = new ArrayList<>();
     }
 
     public String getName() {
@@ -31,5 +35,13 @@ public class TaskTemplate {
 
     public int getId() {
         return id;
+    }
+
+    public void setFields(List<TaskTemplateField> fields) {
+        this.fields = fields;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

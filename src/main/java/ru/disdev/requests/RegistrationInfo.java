@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  */
 public class RegistrationInfo {
     @Size(min = 3, max = 20, message = "Минимальное количество символов - 3, максимальное - 20")
-    @Pattern(regexp = Constants.NAME_PATTERN,
+    @Pattern(regexp = Constants.NAME_PATTERN_STRING,
             message = "Логин должен состаять из цифр и букв из латинского алфавита")
     private String login;
     @Size(min = 3, max = 20, message = "Минимальное количество символов - 3, максимальное - 20")

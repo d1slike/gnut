@@ -1,7 +1,5 @@
 package ru.disdev.model.templates;
 
-import ru.disdev.model.templates.validation.FieldValidator;
-
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -15,27 +13,33 @@ public class TaskTemplateField implements Serializable {
 
     private TaskTemplateFieldType type;
     private String name;
-    private FieldValidator validator;
+    private boolean required;
 
-    TaskTemplateField() {
+    public TaskTemplateField() {
 
-    }
-
-    public TaskTemplateField(TaskTemplateFieldType taskTemplateFieldType, String name, FieldValidator validator) {
-        this.type = taskTemplateFieldType;
-        this.name = name;
-        this.validator = validator;
     }
 
     public String getName() {
         return name;
     }
 
-    public FieldValidator getValidator() {
-        return validator;
-    }
-
     public TaskTemplateFieldType getType() {
         return type;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setType(TaskTemplateFieldType type) {
+        this.type = type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 }
