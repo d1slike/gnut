@@ -15,32 +15,38 @@
 
 <body>
 <div class="container" style="maxWidth: 300px;" align="center">
-    <!--/*@thymesVar id="template" type="ru.disdev.requests.TaskTemplateInfo"*/-->
-    <!--/*@thymesVar id="taskTemplateInfo" type="ru.disdev.requests.TaskTemplateInfo"*/-->
-    <form th:action="@{/template}" th:object="${taskTemplateInfo}" method="post">
+    <!--/*@thymesVar id="taskTemplate" type="ru.disdev.model.templates.TaskTemplate"*/-->
+    <form th:action="@{/template}" th:object="${taskTemplate}" method="post">
         <input type="text" th:field="*{name}"/>
+        <p th:if="${#fields.hasErrors('name')}"
+           class="label label-danger" th:errors="*{name}">
+            /</p>
         <table align="center" border="0" cellpadding="0" cellspacing="0" style="maxWidth:600px;max-height: 1000px">
             <tbody>
             <tr>
                 <td style="align-content: center">#</td>
                 <td style="align-content: center">Тип поля</td>
                 <td style="align-content: center">Название поля</td>
-                <td style="align-content: center">Ограничения</td>
                 <td style="align-content: center">Обязательно</td>
                 <td style="align-content: center">Удалить</td>
+                <td style="align-content: center"></td>
             </tr>
             <tr th:each="field, stat : *{fields}">
                 <td style="align-content: center" th:text="${stat.index}">jj</td>
-                <td style="align-content: center"><input type="text" th:field="*{fields[__${stat.index}__].type}"/></td>
+                <td style="align-content: center"><select th:field="*{fields[__${stat.index}__].type}">
+                    <option th:each="type : ${fieldTypes}"
+                            th:value="${type}"
+                            th:text="${type.getDescription()}">/</option>
+                </select></td>
                 <td style="align-content: center"><input type="text" th:field="*{fields[__${stat.index}__].name}"/></td>
-                <td style="align-content: center"><input type="text" th:field="*{fields[__${stat.index}__].condition}"/></td>
                 <td style="align-content: center"><input type="checkbox" th:field="*{fields[__${stat.index}__].required}"/></td>
                 <td style="align-content: center"><button type="submit" th:value="${stat.index}" name="removeField">Удалить</button></td>
+                <td style="align-content: center"><p class="label label-danger" th:text="${error__${stat.index}__}"></p></td>
             </tr>
             </tbody>
         </table>
         <input type="submit" value="Добавить поле" name="addField"/>
-        <input type="submit" value="Сохранить шаблон"/>
+        <input type="submit" value="Сохранить шаблон" name="save"/>
     </form>
 </div>
 </body>

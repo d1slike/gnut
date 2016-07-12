@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ru.disdev.model.users.RegisteredUser;
 import ru.disdev.requests.RegistrationInfo;
 import ru.disdev.services.UserService;
+import ru.disdev.util.WebPaths;
 
 import javax.validation.Valid;
 
@@ -20,13 +21,13 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     private String registrationPage(Model model) {
 
         model.addAttribute("registrationInfo", new RegistrationInfo());
-        return "registration";
+        return WebPaths.REGISTRATION;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -42,11 +43,11 @@ public class RegistrationController {
         if (result.hasErrors()) {
             success = false;
         }
-        if (service.checkForExistsByLogin(info.getLogin())) {
+        if (userService.checkForExistsByLogin(info.getLogin())) {
             model.addAttribute("loginAlreadyExist", true);
             success = false;
         }
-        if (service.checkForExistByEmail(info.getEmail())) {
+        if (userService.checkForExistByEmail(info.getEmail())) {
             model.addAttribute("emailAlreadyExist", true);
             success = false;
         }
@@ -56,8 +57,8 @@ public class RegistrationController {
             return "/registration";
         }
 
-        service.save(new RegisteredUser(info.getLogin(), info.getPassword(), info.getEmail()));
+        userService.save(new RegisteredUser(info.getLogin(), info.getPassword(), info.getEmail()));
         model.addAttribute("registeredSuccess", true);
-        return "login";
+        return WebPaths.LOGIN;
     }
 }
