@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import ru.disdev.model.templates.TaskTemplate;
 import ru.disdev.model.templates.TaskTemplateField;
 import ru.disdev.model.templates.TaskTemplateFieldType;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/template")
-public class TaskTemplateController {
+public class TaskTemplateController extends AbstractController {
 
     @Autowired
     private TaskTemplateFieldValidator validator;
@@ -36,18 +38,42 @@ public class TaskTemplateController {
         return TaskTemplateFieldType.values();
     }
 
+    @ModelAttribute("templateList")
+    public List<TaskTemplate> templateList() {
+        return taskTemplateService.getAll();
+    }
+
     @RequestMapping(params = "addField")
     private String addField(TaskTemplate taskTemplateInfo, Model model) {
         taskTemplateInfo.getFields().add(new TaskTemplateField());
         return WebPaths.TASK_TEMPLATE_EDIT;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    private String templateEditPage(Model model) {
+    @RequestMapping(path = "/new")
+    private ModelAndView newTemplatePage() {
         TaskTemplate templateInfo = new TaskTemplate();
         templateInfo.getFields().add(new TaskTemplateField());
-        model.addAttribute(templateInfo);
-        return WebPaths.TASK_TEMPLATE_EDIT;
+        return new ModelAndView(WebPaths.TASK_TEMPLATE_EDIT, "taskTemplate", templateInfo);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    private String templateListPage() {
+        return WebPaths.TASK_TEMPLATE_LIST;
+    }
+
+    @RequestMapping(params = "removeTemplate")
+    private String removeTemplate(HttpServletRequest request) {
+        int templateId = Integer.parseInt(request.getParameter("removeTemplate"));
+        taskTemplateService.deleteById(templateId);
+        return makeRedirectTo("template");
+    }
+
+    @RequestMapping(path = "edit/{templateId}")
+    private ModelAndView editTemplatePage(@PathVariable int templateId, Model model) {
+        TaskTemplate taskTemplate = taskTemplateService.getById(templateId);
+        if (taskTemplate != null)
+            return new ModelAndView(WebPaths.TASK_TEMPLATE_EDIT, "taskTemplate", taskTemplate);
+        return new ModelAndView(WebPaths.TASK_TEMPLATE_LIST);
     }
 
     @RequestMapping(params = "removeField")
@@ -76,9 +102,9 @@ public class TaskTemplateController {
         if (!success)
             return WebPaths.TASK_TEMPLATE_EDIT;
 
-        taskTemplateService.addNewTemplate(taskTemplateInfo);
+        taskTemplateService.saveTemplate(taskTemplateInfo);
 
-        return "redirect:index";
+        return makeRedirectTo("template");
     }
 
 }

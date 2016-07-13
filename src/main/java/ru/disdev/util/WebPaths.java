@@ -8,4 +8,5 @@ public class WebPaths {
     public static final String LOGIN = "autification/login";
     public static final String REGISTRATION = "autification/registration";
     public static final String TASK_TEMPLATE_EDIT = "task/template/edit";
+    public static final String TASK_TEMPLATE_LIST = "task/template/list";
 }
